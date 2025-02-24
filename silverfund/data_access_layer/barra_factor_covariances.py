@@ -7,6 +7,22 @@ from dotenv import load_dotenv
 
 
 def load_factor_covariances(date_: date) -> pl.DataFrame:
+    """Loads factor covariance data for a given date.
+
+    This function retrieves factor covariances from the Barra dataset, extracting relevant information
+    and splitting the combined identifier column into `factor_1` and `factor_2`.
+
+    Args:
+        date_ (date): The date for which factor covariance data is needed.
+
+    Returns:
+        pl.DataFrame: A DataFrame containing factor covariances with columns `factor_1`, `factor_2`, and `covariance`.
+
+    Example:
+        >>> df = load_factor_covariances(date(2023, 5, 15))
+        >>> print(df)
+    """
+
     # Paths
     load_dotenv()
     parts = os.getenv("ROOT").split("/")

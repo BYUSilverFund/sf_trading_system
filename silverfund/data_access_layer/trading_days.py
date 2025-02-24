@@ -15,6 +15,25 @@ def load_trading_days(
     end_date: date | None = None,
     quiet: bool = True,
 ) -> pl.DataFrame:
+    """Loads trading days for a given interval within a specified date range.
+
+    This function retrieves trading days from CRSP daily or monthly datasets,
+    filters the data by the given date range, and ensures uniqueness.
+
+    Args:
+        interval (Interval): The time interval, either DAILY or MONTHLY.
+        start_date (date, optional): The start date for filtering (default: 1995-07-31).
+        end_date (date, optional): The end date for filtering (default: today).
+        quiet (bool, optional): If True, disables the tqdm loading bar for daily data.
+
+    Returns:
+        pl.DataFrame: A DataFrame containing unique trading days sorted by date.
+
+    Example:
+        >>> df = load_trading_days(Interval.DAILY, date(2020, 1, 1), date(2023, 1, 1))
+        >>> print(df)
+    """
+
     # Parameters
     start_date = start_date or date(1995, 7, 31)
     end_date = end_date or date.today()

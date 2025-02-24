@@ -7,6 +7,22 @@ from dotenv import load_dotenv
 
 
 def load_specific_risk(date_: date) -> pl.DataFrame:
+    """Loads specific risk data for a given date.
+
+    This function retrieves the specific risk values from the Barra dataset for a given year,
+    selecting the relevant date column and formatting the output.
+
+    Args:
+        date_ (date): The date for which specific risk data is needed.
+
+    Returns:
+        pl.DataFrame: A DataFrame containing specific risk values indexed by `barrid`.
+
+    Example:
+        >>> df = load_specific_risk(date(2023, 5, 15))
+        >>> print(df)
+    """
+
     # Paths
     load_dotenv()
     parts = os.getenv("ROOT").split("/")

@@ -13,6 +13,26 @@ def load_universe(
     end_date: date | None = None,
     quiet: bool = True,
 ):
+    """Loads the universe of Russell index constituents for a given interval and date range.
+
+    This function merges trading days with Russell index constituent data, ensuring
+    proper alignment with trading dates, forward-filling missing values, and filtering
+    by the specified date range.
+
+    Args:
+        interval (Interval): The time interval, either DAILY or MONTHLY.
+        start_date (date, optional): The start date for filtering (default: 1995-07-31).
+        end_date (date, optional): The end date for filtering (default: today).
+        quiet (bool, optional): If True, disables the tqdm loading bar for trading days.
+
+    Returns:
+        pl.DataFrame: A DataFrame containing the universe of constituents for each trading day.
+
+    Example:
+        >>> df = load_universe(Interval.DAILY, date(2020, 1, 1), date(2023, 1, 1))
+        >>> print(df)
+    """
+
     # Parameters
     start_date = start_date or date(1995, 7, 31)
     end_date = end_date or date.today()

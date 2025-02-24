@@ -8,6 +8,7 @@ from silverfund.alphas import grindold_kahn
 from silverfund.backtester import Backtester
 from silverfund.constraints import full_investment, long_only, no_buying_on_margin, unit_beta
 from silverfund.enums import Interval
+from silverfund.logging.slack import SlackLogConfig
 from silverfund.portfolios import mean_variance_efficient
 from silverfund.scores import z_score
 from silverfund.signals import momentum
@@ -41,14 +42,24 @@ if __name__ == "__main__":
         how="left",
     ).sort(["barrid", "date"])
 
+    # Create slack log config
+    slack_log_config = SlackLogConfig(slack_member_id="U05NMGKA52Q", job_name="Backtest Example")
+
     # Instantiate backtester
-    bt = Backtester(interval=interval, start_date=start_date, end_date=end_date, data=training_data)
+    bt = Backtester(
+        interval=interval,
+        start_date=start_date,
+        end_date=end_date,
+        data=training_data,
+        slack_log_config=slack_log_config,
+    )
 
     # Run in parallel
     asset_returns = bt.run_parallel(strategy)
     print("-" * 20 + " Asset Returns " + "-" * 20)
+    print(asset_returns)
 
     # Save results
     folder = Path("research/example/results")
-    os.makedirs(folder)
+    os.makedirs(folder, exist_ok=True)
     asset_returns.write_parquet(folder / "backtest_example.parquet")

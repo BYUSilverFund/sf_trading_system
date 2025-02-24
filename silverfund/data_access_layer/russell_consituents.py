@@ -6,6 +6,18 @@ from dotenv import load_dotenv
 
 
 def load_russell_constituents() -> pl.DataFrame:
+    """Loads historical Russell index constituent data.
+
+    This function retrieves Russell index constituent data from a Parquet file,
+    ensures that date columns are properly formatted, and returns the cleaned data.
+
+    Returns:
+        pl.DataFrame: A Polars DataFrame containing Russell index constituent data.
+
+    Example:
+        >>> df = load_russell_constituents()
+        >>> print(df.head())
+    """
 
     # File path
     load_dotenv()

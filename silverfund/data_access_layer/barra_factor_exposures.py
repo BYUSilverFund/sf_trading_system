@@ -9,6 +9,22 @@ from dotenv import load_dotenv
 def load_factor_exposures(
     date_: date,
 ) -> pl.DataFrame:
+    """Loads factor exposure data for a given date.
+
+    This function retrieves factor exposures from the Barra dataset, extracting relevant information
+    and splitting the combined identifier column into `barrid` and `factor`.
+
+    Args:
+        date_ (date): The date for which factor exposure data is needed.
+
+    Returns:
+        pl.DataFrame: A DataFrame containing factor exposures with columns `barrid`, `factor`, and `exposure`.
+
+    Example:
+        >>> df = load_factor_exposures(date(2023, 5, 15))
+        >>> print(df)
+    """
+
     # Paths
     load_dotenv()
     parts = os.getenv("ROOT").split("/")

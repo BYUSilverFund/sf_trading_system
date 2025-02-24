@@ -12,6 +12,28 @@ def load_benchmark(
     start_date: date | None = None,
     end_date: date | None = None,
 ) -> pl.DataFrame:
+    """Loads benchmark weights based on market capitalization.
+
+    This function retrieves the universe of assets and their respective Barra
+    returns for a given time interval and date range. It computes the total
+    market capitalization for each day and calculates individual asset weights
+    relative to the total market cap.
+
+    Args:
+        interval (Interval): The time interval for the data (e.g., daily, monthly).
+        start_date (date | None, optional): The start date for filtering the data. Defaults to `None`, meaning earliest available data is used.
+        end_date (date | None, optional): The end date for filtering the data. Defaults to `None`, meaning the latest available data is used.
+
+    Returns:
+        pl.DataFrame: A Polars DataFrame containing the benchmark weights for each asset.
+
+    Example:
+        >>> from datetime import date
+        >>> from silverfund.enums import Interval
+        >>> df = load_benchmark(Interval.DAILY, start_date=date(2020, 1, 1), end_date=date(2021, 12, 31))
+        >>> print(df.head())
+    """
+
     # Load universe
     universe = load_universe(interval=interval, start_date=start_date, end_date=end_date)
 

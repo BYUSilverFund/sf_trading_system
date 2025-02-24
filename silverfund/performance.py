@@ -13,6 +13,28 @@ from silverfund.records import AssetReturns
 
 
 class Performance:
+    """
+    A class to evaluate and visualize portfolio performance.
+
+    This class provides methods to calculate and summarize key performance metrics,
+    including return, risk (standard deviation), Sharpe ratio, information ratio,
+    beta, and alpha for a portfolio, benchmark, and active returns.
+
+    Attributes:
+        interval (Interval): The frequency of data (e.g., daily, monthly).
+        start_date (date): The start date of the performance evaluation period.
+        end_date (date): The end date of the performance evaluation period.
+        asset_returns (AssetReturns): Asset returns data for the evaluation period.
+        annualize (bool): Whether to annualize the results (default is True).
+
+    Methods:
+        plot_returns(compounding: Compounding, title: str, decompose: bool = False,
+                      save_file_path: str | None = None):
+            Plots the cumulative returns of the portfolio, benchmark, and active returns.
+        summary(save_file_path: str | None = None):
+            Generates a summary table with performance metrics and returns it or saves to a file.
+    """
+
     def __init__(
         self,
         interval: Interval,
@@ -21,6 +43,16 @@ class Performance:
         asset_returns: AssetReturns,
         annualize: bool = True,
     ) -> None:
+        """
+        Initializes the Performance object.
+
+        Args:
+            interval (Interval): The data frequency (e.g., daily, monthly).
+            start_date (date): The start date for the performance evaluation period.
+            end_date (date): The end date for the performance evaluation period.
+            asset_returns (AssetReturns): Asset returns data.
+            annualize (bool, optional): Whether to annualize the performance metrics. Defaults to True.
+        """
         self._start_date = start_date
         self._end_date = end_date
         self._interval = interval
@@ -61,6 +93,15 @@ class Performance:
         decompose: bool = False,
         save_file_path: str | None = None,
     ) -> None:
+        """
+        Plots the cumulative returns for portfolio, benchmark, and active returns.
+
+        Args:
+            compounding (Compounding): The compounding method (sum or product).
+            title (str): The title of the plot.
+            decompose (bool, optional): Whether to decompose the total return into benchmark and active returns.
+            save_file_path (str | None, optional): If provided, saves the plot to the given path.
+        """
         df = self._portfolio_returns
 
         # Create cummulative returns dataframe
@@ -224,6 +265,15 @@ class Performance:
         return self._intercept("active_ret")
 
     def summary(self, save_file_path: str | None = None) -> str | None:
+        """
+        Generates a summary of performance metrics as a table.
+
+        Args:
+            save_file_path (str | None, optional): If provided, saves the summary to the file path.
+
+        Returns:
+            str | None: The summary as a string, or None if saved to a file.
+        """
         # Create data rows for the table
         data = [
             [

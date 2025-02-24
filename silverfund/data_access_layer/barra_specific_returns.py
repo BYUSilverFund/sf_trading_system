@@ -15,6 +15,29 @@ def load_specific_returns(
     start_date: date,
     end_date: date,
 ) -> pl.DataFrame:
+    """Loads Barra specific return forecasts for a specified time interval.
+
+    This function reads daily specific return forecast data from Parquet files stored in a
+    predefined directory, cleans the data, and optionally aggregates it to a monthly frequency.
+    The data is filtered to the given date range and sorted before returning.
+
+    Args:
+        interval (Interval): The time interval for the data. If `Interval.MONTHLY`,
+            the data is aggregated to monthly returns.
+        start_date (date): The start date for filtering the data.
+        end_date (date): The end date for filtering the data.
+
+    Returns:
+        pl.DataFrame: A Polars DataFrame containing the filtered and processed
+        Barra specific return forecast data.
+
+    Example:
+        >>> from datetime import date
+        >>> from silverfund.enums import Interval
+        >>> df = load_specific_returns(Interval.DAILY, start_date=date(2020, 1, 1), end_date=date(2021, 12, 31))
+        >>> print(df.head())
+    """
+
     # Parameters
     load_dotenv()
     parts = os.getenv("ROOT").split("/")

@@ -15,6 +15,31 @@ def load_barra_returns(
     start_date: date | None = None,
     end_date: date | None = None,
 ) -> pl.DataFrame:
+    """Loads Barra returns data for a specified time interval.
+
+    This function reads daily return data from Parquet files stored in a specific
+    directory, cleans the data, and optionally aggregates it to a monthly frequency.
+    The data is filtered to the given date range and sorted before returning.
+
+    Args:
+        interval (Interval): The time interval for the data. If `Interval.MONTHLY`,
+            the data is aggregated to monthly returns.
+        start_date (date, optional): The start date for filtering the data. Defaults
+            to July 31, 1995, if not provided.
+        end_date (date, optional): The end date for filtering the data. Defaults to
+            the current date if not provided.
+
+    Returns:
+        pl.DataFrame: A Polars DataFrame containing the filtered and processed
+        Barra returns data.
+
+    Example:
+        >>> from datetime import date
+        >>> from silverfund.enums import Interval
+        >>> df = load_barra_returns(Interval.DAILY, start_date=date(2020, 1, 1), end_date=date(2021, 12, 31))
+        >>> print(df.head())
+    """
+
     # Parameters
     start_date = start_date or date(1995, 7, 31)
     end_date = end_date or date.today()

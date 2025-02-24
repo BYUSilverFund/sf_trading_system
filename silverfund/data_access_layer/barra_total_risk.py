@@ -16,6 +16,30 @@ def load_total_risk(
     end_date: date | None = None,
     quiet: bool = True,
 ) -> pl.DataFrame:
+    """Loads Barra total risk data for a specified time interval.
+
+    This function reads daily total risk data from Parquet files stored in a
+    predefined directory, cleans the data, and optionally aggregates it to a monthly frequency.
+    The data is filtered to the given date range and sorted before returning.
+
+    Args:
+        interval (Interval): The time interval for the data. If `Interval.MONTHLY`,
+            the data is aggregated to monthly values.
+        start_date (date | None, optional): The start date for filtering the data. Defaults to July 31, 1995.
+        end_date (date | None, optional): The end date for filtering the data. Defaults to today.
+        quiet (bool, optional): If `True`, disables the progress bar during data loading. Defaults to `True`.
+
+    Returns:
+        pl.DataFrame: A Polars DataFrame containing the filtered and processed
+        Barra total risk data.
+
+    Example:
+        >>> from datetime import date
+        >>> from silverfund.enums import Interval
+        >>> df = load_total_risk(Interval.DAILY, start_date=date(2020, 1, 1), end_date=date(2021, 12, 31))
+        >>> print(df.head())
+    """
+
     # Parameters
     start_date = start_date or date(1995, 7, 31)
     end_date = end_date or date.today()

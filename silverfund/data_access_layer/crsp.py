@@ -31,6 +31,25 @@ def load_crsp(
     start_date: date | None = None,
     end_date: date | None = None,
 ) -> pl.DataFrame:
+    """Loads CRSP (Center for Research in Security Prices) data.
+
+    This function retrieves either daily or monthly CRSP data, cleans it according
+    to a predefined schema, and filters it based on the given date range.
+
+    Args:
+        interval (Interval): The time interval for the data (e.g., daily or monthly).
+        start_date (date | None, optional): The start date for filtering the data. Defaults to `1925-12-31`.
+        end_date (date | None, optional): The end date for filtering the data. Defaults to today.
+
+    Returns:
+        pl.DataFrame: A Polars DataFrame containing CRSP data for the given interval and date range.
+
+    Example:
+        >>> from datetime import date
+        >>> from silverfund.enums import Interval
+        >>> df = load_crsp(Interval.DAILY, start_date=date(2000, 1, 1), end_date=date(2020, 12, 31))
+        >>> print(df.head())
+    """
 
     # Parameters
     start_date = start_date or date(1925, 12, 31)

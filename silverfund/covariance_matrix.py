@@ -8,6 +8,16 @@ from silverfund.records import CovarianceMatrix
 
 
 def covariance_matrix_constructor(date_: date, barrids: list[str]) -> CovarianceMatrix:
+    """
+    Constructs the covariance matrix based on exposures, factor covariances, and specific risks.
+
+    Args:
+        date_ (date): The date for which the covariance matrix is computed.
+        barrids (List[str]): List of Barrid identifiers for the assets.
+
+    Returns:
+        CovarianceMatrix: The computed covariance matrix wrapped in a CovarianceMatrix object.
+    """
     # Load
     exposures_matrix = factor_exposure_matrix_constructor(date_, barrids).drop("barrid").to_numpy()
     covariance_matrix = factor_covariance_matrix_constructor(date_).drop("factor_1").to_numpy()
@@ -31,6 +41,16 @@ def covariance_matrix_constructor(date_: date, barrids: list[str]) -> Covariance
 
 
 def factor_exposure_matrix_constructor(date_: date, barrids: list[str]) -> pl.DataFrame:
+    """
+    Constructs the factor exposure matrix for the given date and Barrids.
+
+    Args:
+        date_ (date): The date for which the factor exposure matrix is computed.
+        barrids (List[str]): List of Barrid identifiers for the assets.
+
+    Returns:
+        pl.DataFrame: The factor exposure matrix.
+    """
     # Barrids
     barrids_df = pl.DataFrame({"barrid": barrids})
 
@@ -59,6 +79,15 @@ def factor_exposure_matrix_constructor(date_: date, barrids: list[str]) -> pl.Da
 
 
 def factor_covariance_matrix_constructor(date_: date) -> pl.DataFrame:
+    """
+    Constructs the factor covariance matrix for the given date.
+
+    Args:
+        date_ (date): The date for which the factor covariance matrix is computed.
+
+    Returns:
+        pl.DataFrame: The factor covariance matrix.
+    """
     # Load
     fc_df = dal.load_factor_covariances(date_)
 
@@ -91,6 +120,16 @@ def factor_covariance_matrix_constructor(date_: date) -> pl.DataFrame:
 
 
 def specific_risk_matrix(date_: date, barrids: list[str]) -> pl.DataFrame:
+    """
+    Constructs the specific risk matrix for the given date and Barrids.
+
+    Args:
+        date_ (date): The date for which the specific risk matrix is computed.
+        barrids (List[str]): List of Barrid identifiers for the assets.
+
+    Returns:
+        pl.DataFrame: The specific risk matrix.
+    """
     # Barrids
     barrids_df = pl.DataFrame({"barrid": barrids})
 
